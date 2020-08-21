@@ -1,0 +1,113 @@
+<html>
+  <body>
+    <div id="player"></div>
+
+    <script type="text/javascript" src="rave_concert.js" defer></script>
+    <script src="config.app.js"></script>
+    <script src="rave.js"></script>
+
+
+    <script>
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '360',
+          width: '640',
+          // align: "center",
+          // videoId: '0GN8t2u3flc',  // YTN
+          videoId: 'UB4B7C_-AsM', 
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+        _rave_youtube_player(player);
+        setInterval(tmDisplay, 1000);
+      }
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      var done = true;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+      function tmDisplay() {
+        // var dm = _rave_payer.getDuration();
+        var tm = _rave_payer.getCurrentTime();
+
+        var days = Math.trunc(tm / 60 / 60 / 24);
+        var hours = Math.trunc((tm - (days * 60 * 60 * 24)) / 60 / 60);
+        var mins = Math.trunc((tm - (days * 60 * 60 * 24 + hours * 60 * 60)) / 60);
+        var secs = Math.trunc((tm - (days * 60 * 60 * 24 + hours * 60 * 60 + mins * 60)));
+
+        document.querySelector("#days").innerText = days;
+        document.querySelector("#hours").innerText = (hours < 10)? "0" + hours : hours;
+        document.querySelector("#mins").innerText = (mins < 10)? "0" + mins : mins;
+        document.querySelector("#secs").innerText = (secs < 10)? "0" + secs: secs;
+        // console.log(tm + " " + dm + " days:" + days);
+      }
+    </script>
+
+
+
+<!-- <iframe width="1219" height="686" src="https://www.youtube.com/embed/UB4B7C_-AsM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+
+
+
+    <br><br>
+    <table width=640>
+      <tr>
+        
+        <td width=20 align=left></td>
+        <td width=20 align=right><div id="days"></div></td><td width=20 align=left>days </td>
+        <td width=20 align=center><div id="hours"></div></td><td width=5>:</td>
+        <td width=20 align=center><div id="mins"></div></td><td width=5>:</td>
+        <td width=20 align=center><div id="secs"></div></td>
+        <td></td>
+      <!-- </tr>
+      <tr> -->
+        <td align=right><input type="button" id="rave_pair" onclick="_rave_ble_paring();" value="Find KBX" /></td>
+
+      </tr>
+      <tr>
+        <td>Online RAVE:</td>
+        <td><div id="online_status"></div></td>
+      </tr>
+      <div></div>
+      <div>
+        
+      </div>
+      
+    </table>
+    
+    <br><br>
+
+    <div id="Recv"></div>
+
+
+
+    <script> 
+    // // var fruits = ["Apple","Banana","Orange","Strawberry"];
+    // var fruits = [] ;
+    // var shift = fruits.shift();
+    // console.log(shift);
+    // console.log(fruits);
+
+
+    </script>
+  </body>
+</html>
